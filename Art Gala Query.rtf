@@ -1,0 +1,425 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 drop Trigger countArtTrigger;
+\f1\fs24 \
+
+\f0\fs28 drop Trigger countRankingTrigger;
+\f1\fs24 \
+
+\f0\fs28 drop table ParticipantList;
+\f1\fs24 \
+
+\f0\fs28 drop table Winnings;
+\f1\fs24 \
+
+\f0\fs28 drop table Building;
+\f1\fs24 \
+
+\f0\fs28 drop table Artist;
+\f1\fs24 \
+
+\f0\fs28 drop table Member;
+\f1\fs24 \
+
+\f0\fs28 drop table TwoD;
+\f1\fs24 \
+
+\f0\fs28 drop table Pottery;
+\f1\fs24 \
+
+\f0\fs28 drop table Artwork;
+\f1\fs24 \
+
+\f0\fs28 drop table Gallery;
+\f1\fs24 \
+
+\f0\fs28 drop table Participant;
+\f1\fs24 \
+
+\f0\fs28 drop sequence artworkID_seq;
+\f1\fs24 \
+
+\f0\fs28 drop sequence memberID_seq;
+\f1\fs24 \
+\
+
+\f0\fs28 create table Participant(
+\f1\fs24 \
+
+\f0\fs28 	pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	firstName varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	lastName varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	phoneNumber number(10),
+\f1\fs24 \
+
+\f0\fs28 	city varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	state char(2),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	ranked number(2) not null,
+\f1\fs24 \
+
+\f0\fs28 	hasTicket char(1),
+\f1\fs24 \
+
+\f0\fs28 	memberID number(3),
+\f1\fs24 \
+
+\f0\fs28 	yearJoined number(4),
+\f1\fs24 \
+
+\f0\fs28 	Expired char(1),
+\f1\fs24 \
+
+\f0\fs28 	numEvents number(3),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Participant_PK Primary Key (pemail)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table Gallery(
+\f1\fs24 \
+
+\f0\fs28 	galleryName varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	maxCapacity number(3),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Gallery_PK Primary Key (galleryName)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table Artwork(
+\f1\fs24 \
+
+\f0\fs28 	artworkID number(3),
+\f1\fs24 \
+
+\f0\fs28 	galleryName varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	price number(6,2),
+\f1\fs24 \
+
+\f0\fs28 	title varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	category varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Artwork_PK Primary Key (artworkID),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Artwork_GN_FK Foreign Key (galleryName) References Gallery (galleryName),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Artwork_PM_FK Foreign Key (pemail) References Participant (pemail)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create sequence artworkID_seq
+\f1\fs24 \
+
+\f0\fs28 start with 1
+\f1\fs24 \
+
+\f0\fs28 increment by 2;
+\f1\fs24 \
+\
+
+\f0\fs28 create table TwoD (
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	artworkID number(3),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	medium varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	category varchar2(15) default 'TwoD' not null,
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	Constraint TwoD_PK Primary Key (artworkID),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	Constraint TwoD_FK Foreign Key (artworkID) References Artwork (artworkID)
+\f1\fs24 \
+\
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table Pottery (
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	artworkID number(3),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	claybody varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	category varchar2(15) default 'Pottery' not null,
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	Constraint Pottery_PK Primary Key (artworkID),
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0	Constraint Pottery_FK Foreign Key (artworkID) References Artwork (artworkID)\'a0\'a0
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table Member(
+\f1\fs24 \
+
+\f0\fs28 	memberID number(3),
+\f1\fs24 \
+
+\f0\fs28 	pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	yearJoined date,
+\f1\fs24 \
+
+\f0\fs28 	expired char(1),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Member_PK Primary Key (memberID),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Member_FK Foreign Key (pemail) References Participant (pemail)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create sequence memberID_seq
+\f1\fs24 \
+
+\f0\fs28 start with 100
+\f1\fs24 \
+
+\f0\fs28 increment by 5;
+\f1\fs24 \
+\
+
+\f0\fs28 create table Artist(
+\f1\fs24 \
+
+\f0\fs28 	pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	numEvents number(3),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Artist_PK Primary Key (pemail),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Artist_FK Foreign Key (pemail) References Participant (pemail)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table Building(
+\f1\fs24 \
+
+\f0\fs28 	buildingName varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	galleryName varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	zipCode number(5),
+\f1\fs24 \
+
+\f0\fs28 	state char(2),
+\f1\fs24 \
+
+\f0\fs28 	city varchar2(15),
+\f1\fs24 \
+
+\f0\fs28 	street varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Building_PK Primary Key (buildingName),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Building_FK Foreign Key (galleryName) References Gallery (galleryName)
+\f1\fs24 \
+
+\f0\fs28 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table RankList(
+\f1\fs24 \
+
+\f0\fs28 	pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 	artworkID number(3),
+\f1\fs24 \
+
+\f0\fs28 	Constraint Winnings_PK Primary Key (pemail),
+\f1\fs24 \
+\pard\pardeftab720\fi960\partightenfactor0
+
+\f0\fs28 \cf0 Constraint Winnings_PEM_FK Foreign Key (pemail) References Participant (pemail),
+\f1\fs24 \
+
+\f0\fs28 Constraint Winningst_AID_FK Foreign Key (artworkID) References Artwork (artworkID)
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf0 );
+\f1\fs24 \
+\
+
+\f0\fs28 create table ParticipantList(
+\f1\fs24 \
+\pard\pardeftab720\fi960\partightenfactor0
+
+\f0\fs28 \cf0 pemail varchar2(25),
+\f1\fs24 \
+
+\f0\fs28 artworkID number(3),
+\f1\fs24 \
+
+\f0\fs28 rank number(2),
+\f1\fs24 \
+
+\f0\fs28 Constraint ParticipantList_PK Primary Key (pemail),
+\f1\fs24 \
+
+\f0\fs28 Constraint ParticipantList_PEM_FK Foreign Key (pemail) References Participant (pemail),
+\f1\fs24 \
+
+\f0\fs28 Constraint ParticipantList_AID_FK Foreign Key (artworkID) References Artwork (artworkID)
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf0 );
+\f1\fs24 \
+\
+
+\f0\fs28 ALTER TABLE ParticipantList ADD CONSTRAINT UQ_pEmail_aID UNIQUE (pemail,artworkID);
+\f1\fs24 \
+\
+
+\f0\fs28 create Trigger countArtTrigger
+\f1\fs24 \
+
+\f0\fs28 After Update on Artwork
+\f1\fs24 \
+
+\f0\fs28 Declare\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0countArt number;
+\f1\fs24 \
+
+\f0\fs28 begin
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0select count(artworkID) into countArt
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0from Artwork\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0if countArt >= 1000 Then
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0RAISE_APPLICATION_ERROR(-20004, 'Cannot insert record.');\'a0\'a0\'a0\'a0\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0End IF;
+\f1\fs24 \
+
+\f0\fs28 end;
+\f1\fs24 \
+
+\f0\fs28 /
+\f1\fs24 \
+\
+
+\f0\fs28 create Trigger countRankingTrigger
+\f1\fs24 \
+
+\f0\fs28 After Update on Participant
+\f1\fs24 \
+
+\f0\fs28 Declare\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0countRanking number;
+\f1\fs24 \
+
+\f0\fs28 begin
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0select count(ranked) into countRanking
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0from Participant;
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0if countRanking > 20 Then
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0RAISE_APPLICATION_ERROR(-20004, 'Cannot insert record.');\'a0\'a0\'a0\'a0\'a0
+\f1\fs24 \
+
+\f0\fs28 \'a0\'a0\'a0\'a0End IF;
+\f1\fs24 \
+
+\f0\fs28 end;
+\f1\fs24 \
+
+\f0\fs28 /
+\f1\fs24 \
+\
+\
+\
+\
+\
+\
+}
